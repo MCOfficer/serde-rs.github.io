@@ -1,0 +1,26 @@
+name: Regenerate GitBook
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - run: sudo npm install -g gitbook-cli
+    - run: gitbook install
+    - run: gitbook build
+    - uses: stefanzweifel/git-auto-commit-action@v4.2.0
+      with:
+        commit_message: Regenerate GitBook (${{ github.sha }})
+        file_pattern: /*.html
+        commit_user_name: Regenerate GitBook Workflow
+        commit_user_email: github-actions.dont-use@github.com
