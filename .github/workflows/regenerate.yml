@@ -21,7 +21,7 @@ jobs:
         rm -rf gitbook styles
         mv _book/* .
         git restore gitbook/gitbook-plugin-lunr/search-lunr.js # don't revert https://github.com/serde-rs/serde-rs.github.io/commit/1fd8104d5a16256279831dc90cb8f7a61b26ec58
-        if ! git diff -U0 | grep -P '^[+-](?!\+\+)(?!--)' | grep -v -P '[+-]\s+gitbook\.page\.hasChanged'; then # Check if we have any diff *other* than lines starting with gitbook.page.hasChanged (which are just metadata)
+        if ! git diff -U0 ':!search_index.json'  | grep -P '^[+-](?!\+\+)(?!--)' | grep -v -P '[+-]\s+gitbook\.page\.hasChanged'; then # Check if we have any diff *other* than search_index.json and lines starting with gitbook.page.hasChanged (which are just metadata)
           echo No content changes, resetting to prevent a commit
           git reset --hard 
         fi
