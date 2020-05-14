@@ -1,5 +1,7 @@
 # Handwritten generic type bounds
 
+This is a test.
+
 When deriving `Serialize` and `Deserialize` implementations for structs with
 generic type parameters, most of the time Serde is able to infer the correct
 trait bounds without help from the programmer. It uses several heuristics to
