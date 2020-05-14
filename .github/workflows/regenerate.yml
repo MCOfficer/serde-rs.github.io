@@ -20,6 +20,10 @@ jobs:
         gitbook build
         rm -rf gitbook styles
         mv _book/* .
+        git restore gitbook/gitbook-plugin-lunr/search-lunr.js # don't revert https://github.com/serde-rs/serde-rs.github.io/commit/1fd8104d5a16256279831dc90cb8f7a61b26ec58
+        if ! git diff -U0 | grep -e '^[+-]\s' | grep -v -P '[+-]\s+gitbook\.page\.hasChanged'; then // Check if we have any diff *other* than lines starting with gitbook.page.hasChanged (which are just metadata)
+          git reset --hard # If the only changes are metadata, reset so nothing is being commited
+        fi
     - uses: stefanzweifel/git-auto-commit-action@v4.2.0
       with:
         commit_message: Regenerate GitBook (${{ github.sha }})
